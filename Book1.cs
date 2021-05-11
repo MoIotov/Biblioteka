@@ -12,5 +12,9 @@ namespace Biblioteka
         public int bookCena;
         public int bookLiczba;
         public int x;
+        public string bookAutorImie;
+        public string bookAutorNazwisko;
+        public int bookRok;
+        public int y;
     }
 }
