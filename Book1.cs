@@ -16,5 +16,6 @@ namespace Biblioteka
         public string bookAutorNazwisko;
         public int bookRok;
         public int y;
+        public string z;
     }
 }

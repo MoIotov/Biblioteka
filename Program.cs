@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Biblioteka;
+using System.Linq;
 
 namespace Biblioteka
 {
@@ -10,35 +11,53 @@ namespace Biblioteka
         static Book book = new Book();
         static void Main(string[] args)
         {
-            Console.WriteLine("\nMenu\n" +
+            
+
+            bool eexit = false;
+            while (
+                !eexit
+            )
+
+            {
+                Console.WriteLine("\nMenu\n" +
                     "1)Dodaj książkę\n" +
                     "2)Znajdź książkę po tytule\n" +
                     "3)znajdź książki po imieniu i nazwisku autora\n" +
-                    "4)Zamknij\n\n");
-            Console.Write("Wybierz jedną opcję :");
-            int option = int.Parse(Console.ReadLine());
+                    "4)Lista książek\n" +
+                    "5)Zamknij\n\n" 
+                    
+                    
+                    );
+                Console.Write("Wybierz jedną opcję :");
+                int option = int.Parse(Console.ReadLine());
 
-            if (option == 1)
-            {
-                GetBook();
-            }
-            else if (option == 2)
-            {
-                FindBookTitle();
-            }
-            else if (option == 3)
-            {
-                FindBookName();
-            }
-            else if (option == 4)
-            {
-                Console.WriteLine("Do widzenia!");
-                close = false;
-                break;
-            }
-            else
-            {
-                Console.WriteLine("Nie poprawny wybór\nSpróbuj ponownie!!!");
+                if (option == 1)
+                {
+                    GetBook();
+                }
+                else if (option == 3)
+                {
+                    FindBookAutorName();
+                }
+                else if (option == 2)
+                {
+                    FindBookTytul();
+
+                }
+                else if (option == 4) 
+                {
+                    ListBooks();
+                }
+                else if (option == 5)
+                {
+                    Console.WriteLine("Do widzenia!");
+                    eexit = true;
+                }
+                else
+                {
+                    Console.WriteLine("Nie poprawny wybór\nSpróbuj ponownie!!!");
+                };
+                Console.Clear();
             }
         }
 
@@ -61,55 +80,89 @@ namespace Biblioteka
             bookList.Add(book);
         }
 
-        public static void FindBookName()
+        public static void FindBookTytul()
         {
-            Book book = new Book();
-            Console.Write("Search by BOOK id :");
-            int find = int.Parse(Console.ReadLine());
+            
+            Console.Write("Wyszukaj książkę po Tytule :");
+            string sFind = (Console.ReadLine());
 
-            if (bookList.Exists(x => x.bookId == find))
+            if (bookList.Exists(x => x.bookNazwa == sFind))
+            {
+                Book oBook = bookList.Find(x => x.bookNazwa == sFind);
+
+                
+                
+                    
+                    {
+                        Console.WriteLine("Numer książki :{0}\n" +
+                        "Tytuł Książki :{1}\n" +
+                        "Imię Autora :{2}\n" +
+                        "Nazwisko autora :{3}\n" +
+                        "Rok wydania :{4}\n" +
+                        "Cena Książki :{5}\n" +
+                        "Liczba książek :{6}", oBook.bookId, oBook.bookNazwa, oBook.bookAutorImie, oBook.bookAutorNazwisko, oBook.bookRok, oBook.bookCena, oBook.bookLiczba);
+                    }
+                
+            }
+            else
+            {
+                Console.WriteLine("Nazwa nie znaleziona", sFind);
+            }
+            Console.ReadKey();
+        }
+
+        public static void ListBooks()
+        {
+            foreach (Book searchId in bookList)
+            {
+                
+                
+                    Console.WriteLine("Numer książki :{0}\n" +
+                    "Tytuł Książki :{1}\n" +
+                    "Imię Autora :{2}\n" +
+                    "Nazwisko autora :{2}\n" +
+                    "Rok wydania :{2}\n" +
+                    "Cena Książki :{2}\n" +
+                    "Liczba książek :{3}", searchId.bookId, searchId.bookNazwa, searchId.bookAutorImie, searchId.bookAutorNazwisko, searchId.bookRok, searchId.bookCena, searchId.bookLiczba);
+                
+            };
+            Console.WriteLine("Naciśnij dowolny klawisz");
+            Console.ReadKey();
+        }
+
+        public static void FindBookAutorName()
+        {
+            
+            Console.Write("Wyszukaj książkę po Autorze :");
+            Console.WriteLine("Imię Autora");
+            string sFind = (Console.ReadLine());
+            Console.WriteLine("nazwisko Autora");
+            string nFind = (Console.ReadLine());
+
+            if (bookList.Exists(x => x.bookAutorImie == sFind & x.bookAutorNazwisko == nFind))
+
             {
                 foreach (Book searchId in bookList)
                 {
-                    if (searchId.bookId == find)
+                    if (searchId.bookAutorImie == sFind)
                     {
-                        Console.WriteLine("Book id :{0}\n" +
-                        "Book name :{1}\n" +
-                        "Book price :{2}\n" +
-                        "Book Count :{3}", searchId.bookId, searchId.bookNazwa, searchId.bookCena, searchId.bookLiczba);
+                        Console.WriteLine("Numer książki :{0}\n" +
+                    "Tytuł Książki :{1}\n" +
+                    "Imię Autora :{2}\n" +
+                    "Nazwisko autora :{2}\n" +
+                    "Rok wydania :{2}\n" +
+                    "Cena Książki :{2}\n" +
+                    "Liczba książek :{3}", searchId.bookId, searchId.bookNazwa, searchId.bookAutorImie, searchId.bookAutorNazwisko, searchId.bookRok, searchId.bookCena, searchId.bookLiczba);
                     }
                 }
             }
             else
             {
-                Console.WriteLine("Book id {0} not found", find);
+                Console.WriteLine("Autor nie znaleziony", sFind);
             }
+            Console.ReadKey();
         }
-
-        public static void FindBookTitle()
-        {
-            Book book = new Book();
-            Console.Write("Search by BOOK id :");
-            int find = int.Parse(Console.ReadLine());
-
-            if (bookList.Exists(x => x.bookId == find))
-            {
-                foreach (Book searchId in bookList)
-                {
-                    if (searchId.bookId == find)
-                    {
-                        Console.WriteLine("Book id :{0}\n" +
-                        "Book name :{1}\n" +
-                        "Book price :{2}\n" +
-                        "Book Count :{3}", searchId.bookId, searchId.bookNazwa, searchId.bookCena, searchId.bookLiczba);
-                    }
-                }
-            }
-            else
-            {
-                Console.WriteLine("Book id {0} not found", find);
-            }
-        }
+        
 
     }
 }
